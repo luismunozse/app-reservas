@@ -25,8 +25,8 @@ public class Availability {
     @Column(name = "is_available", nullable = false)
     private boolean isAvailable;
 
-    @Column(name = "available_slots", nullable = false, columnDefinition = "integer default 0")
-    private Long totalSlots;
+    @Column(name = "capacity", nullable = false, columnDefinition = "integer default 0")
+    private Integer capacity;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)

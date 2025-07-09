@@ -12,8 +12,8 @@ import java.time.LocalDate;
 public class AvailabilityDTO {
 
     private LocalDate availableDate;
-    private Long totalSlots;
-    private Long availableSlots;
+    private Long totalCapacity; //Capacidad total del dia
+    private Long remainingCapacity; //Cupos que quedan disponibles
 
 
 }
