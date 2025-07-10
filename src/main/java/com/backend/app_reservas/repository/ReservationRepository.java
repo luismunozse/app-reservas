@@ -19,4 +19,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("endDate") LocalDate endDate,
             @Param("status") ReservationStatus status
     );
+
+    List<Reservation> findByStatus(ReservationStatus status);
+
 }

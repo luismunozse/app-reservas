@@ -13,24 +13,25 @@ import com.backend.app_reservas.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final AvailabilityRepository availabilityRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public ReservationService(ReservationRepository reservationRepository,AvailabilityRepository availabilityRepository,UserRepository userRepository) {
+    public ReservationService(ReservationRepository reservationRepository,AvailabilityRepository availabilityRepository,UserService userService) {
         this.reservationRepository = reservationRepository;
         this.availabilityRepository = availabilityRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Transactional
     public Reservation createReservation(ReservationRequestDTO request){
         // Validar que el usuario existe
-        User client = userRepository.findById(request.getClientId())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + request.getClientId()));
+        User client = userService.findById(request.getClientId());
         // Validar que la fecha de reserva esté disponible
         Availability availability = availabilityRepository.findByAvailableDate(request.getReservationDate())
                 .orElseThrow(() -> new ResourceNotFoundException("Fecha no disponible para reservas: " + request.getReservationDate()));
@@ -61,6 +62,20 @@ public class ReservationService {
 
         reservation.setStatus(ReservationStatus.CONFIRMED);
         return reservationRepository.save(reservation);
+    }
+
+    @Transactional
+    public Reservation rejectReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reserva " + reservationId + " no encontrada"));
+
+        reservation.setStatus(ReservationStatus.CANCELLED);
+        return reservationRepository.save(reservation);
+    }
+
+    @Transactional
+    public List<Reservation> getPendingReservations() {
+        return reservationRepository.findByStatus(ReservationStatus.PENDING);
     }
 
 }

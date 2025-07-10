@@ -45,13 +45,13 @@ public class AvailabilityService {
                 // Calcular la capacidad total y los cupos disponibles
                 long totalCapacity = dayRule.getCapacity();
                 long occupiedSlots = approvedReservationsCount.getOrDefault(dayRule.getAvailableDate(), 0L);
-                long availableSlots = totalCapacity - occupiedSlots;
+                long remainingCapacity = totalCapacity - occupiedSlots;
                 // Crear el DTO de disponibilidad para el día
                 availabilityDtos.add(
                         new AvailabilityDTO(
                                 dayRule.getAvailableDate(), // Fecha de disponibilidad
                                 totalCapacity, // Capacidad total del día
-                                Math.max(0, availableSlots) // Asegurarse de que no sea negativo el número de cupos disponibles
+                                Math.max(0, remainingCapacity) // Asegurarse de que no sea negativo el número de cupos disponibles
                         )
                 );
             }
