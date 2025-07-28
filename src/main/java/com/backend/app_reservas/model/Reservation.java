@@ -19,9 +19,13 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
-    private User client;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "client_id", nullable = false)
+//    private User client;
+
+    private String visitorName; // nombre del que solicita la reserva
+
+    private String visitorEmail; // correo electrónico del que solicita la reserva
 
     @Column(nullable = false)
     private LocalDate reservationDate;

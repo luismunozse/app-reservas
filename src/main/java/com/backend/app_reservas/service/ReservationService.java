@@ -20,18 +20,18 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final AvailabilityRepository availabilityRepository;
-    private final UserService userService;
+    //private final UserService userService;
 
     public ReservationService(ReservationRepository reservationRepository,AvailabilityRepository availabilityRepository,UserService userService) {
         this.reservationRepository = reservationRepository;
         this.availabilityRepository = availabilityRepository;
-        this.userService = userService;
+        //this.userService = userService;
     }
 
     @Transactional
     public Reservation createReservation(ReservationRequestDTO request){
         // Validar que el usuario existe
-        User client = userService.findById(request.getClientId());
+//        User client = userService.findById(request.getClientId());
         // Validar que la fecha de reserva esté disponible
         Availability availability = availabilityRepository.findByAvailableDate(request.getReservationDate())
                 .orElseThrow(() -> new ResourceNotFoundException("Fecha no disponible para reservas: " + request.getReservationDate()));
@@ -47,7 +47,8 @@ public class ReservationService {
 
         //Crear y guardar la reserva
         Reservation reservation = new Reservation();
-        reservation.setClient(client);
+        reservation.setVisitorName(request.getVisitorName());
+        reservation.setVisitorEmail(request.getVisitorEmail());
         reservation.setReservationDate(request.getReservationDate());
         reservation.setStatus(ReservationStatus.PENDING); //Siempre inicia en estado Pendiente de confirmación
 

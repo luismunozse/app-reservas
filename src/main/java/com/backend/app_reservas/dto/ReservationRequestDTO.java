@@ -9,6 +9,8 @@ import java.time.LocalDate;
 @Setter
 public class ReservationRequestDTO {
 
-    private Long clientId;
+//    private Long clientId;
+    private String visitorName;
+    private String visitorEmail;
     private LocalDate reservationDate;
 }

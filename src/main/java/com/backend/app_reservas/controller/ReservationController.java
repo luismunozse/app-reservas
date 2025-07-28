@@ -7,6 +7,7 @@ import com.backend.app_reservas.model.Reservation;
 import com.backend.app_reservas.service.ReservationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ public class ReservationController {
         this.reservationMapper = reservationMapper;
     }
 
+    @PostMapping
     public ResponseEntity<ReservationResponseDTO> createReservation(@RequestBody ReservationRequestDTO request) {
         // Call the service to create a reservation
         Reservation newReservation = reservationService.createReservation(request);
